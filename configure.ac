@@ -943,6 +943,10 @@ AC_CONFIG_FILES([config.nice  \
      modules/bibworkflow/lib/Makefile \
      modules/bibworkflow/lib/workers/Makefile \
      modules/bibworkflow/web/Makefile \
+     modules/webvisualize/Makefile \
+     modules/webvisualize/etc/Makefile \
+     modules/webvisualize/etc/templates/Makefile \
+     modules/webvisualize/lib/Makefile \
      ])
 
 ## Finally, write output files:
