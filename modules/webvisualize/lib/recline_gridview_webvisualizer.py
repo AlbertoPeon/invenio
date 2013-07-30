@@ -22,7 +22,5 @@
 class Visualizer(object):
   """docstring for Visualizer"""
   graph_type = 'grid'
-  template = 'webvisualize_gridview.html'
-
-visualizer = Visualizer()
+  template = 'webvisualize_grid_view.html'
     

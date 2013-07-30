@@ -22,6 +22,7 @@
 {% block header %}
   {{ super() }}
   {%- css 'css/slick.grid.css', '01-recline' -%}
+  {%- css 'css/flot.css', '01-recline' -%}
 
   {% js "js/underscore.js", '01-recline' %}
   {% js "js/backbone.js", '01-recline' %}
@@ -29,6 +30,7 @@
   {% js "js/jquery.event.drag-2.0.min.js", '01-recline' %}
   {% js "js/jquery-ui-1.8.16.custom.min.js", '01-recline' %}
   {% js "js/slick.grid.min.js", '01-recline' %}
+  {% js "js/jquery.flot.js", '01-recline' %}
   {% js "js/recline.js", '01-recline' %}
 {% endblock header %}
 
@@ -41,14 +43,27 @@
 
 <h2>{{ visualizer }}</h2>
 
-<div id="data-grid" style="min-height: 100px"></div>
-
+<div id="data-graph"></div>
+<div class="accordion" id="accordion2">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseGrid">
+        Table
+      </a>
+    </div>
+    <div id="collapseGrid" class="accordion-body collapse in">
+      <div class="accordion-inner">
+        <div id="data-grid"></div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block javascript %}
 <script type="text/javascript">
 (function($) {
-
+  //$(".collapse").collapse();
   var vconfig = {{ visualize_config.config|safe }};
   // create the dataset in the usual way but specifying file attribute
   var dataset = new recline.Model.Dataset(
@@ -70,9 +85,32 @@
     }
   });
   grid.visible = true;
-  grid.render()
+  grid.render();
+  // GRAPH
+  var $data_graph = $("#data-graph");
 
+  var graph = new recline.View.Graph({
+    model: dataset,
+    state: {
+      group: 'Name',
+      series: ["Diff. last month", "Total N. of doc."],
+      graphType: 'columns',
+      graphOptions:{
+        // yaxis:{
+        //   min: 1, 
+        //   ticks:[ 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000],
+        //   transform: function(v) {
+        //     return v === 0 ? Math.log(0.00001): Math.log(v);
+        //   } /*move away from zero*/   
+        //},
+        grid : { hoverable:true } 
+      }
+    }
+  });
 
+  $data_graph.append(graph.el);
+  graph.render();
+  graph.redraw();
 
 })(jQuery);
 

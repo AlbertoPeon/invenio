@@ -21,7 +21,5 @@
 class Visualizer(object):
   """docstring for Visualizer"""
   graph_type = 'map'
-  template = 'webvisualize_mapview.html'
-
-visualizer = Visualizer()
+  template = 'webvisualize_map_view.html'
     

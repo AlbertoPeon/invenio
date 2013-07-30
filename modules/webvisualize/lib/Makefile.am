@@ -17,7 +17,10 @@
 
 pylibdir = $(libdir)/python/invenio
 
-pylib_DATA = webvisualize_model.py \
+pylib_DATA = recline_graphview_webvisualizer.py \
+			 recline_gridview_webvisualizer.py \
+			 recline_mapview_webvisualizer.py \
+			 webvisualize_model.py \
              webvisualize_blueprint.py \
              webvisualize_admin.py
 
