@@ -44,16 +44,17 @@ from invenio.record_blueprint import request_record
 
 
 from invenio.importutils import autodiscover_modules
-_VISUALIZERS = autodiscover_modules(['invenio'], related_name_re=".+_webvisualizer\.py")
+_VISUALIZERS = dict(map(lambda v: (v.Visualizer.graph_type, v.Visualizer),
+                        autodiscover_modules(['invenio'], related_name_re=".+_webvisualizer\.py")))
 
 
 @blueprint.route('/view/<cid>', methods=['GET'])
 def view(cid):
     vc = VslConfig.query.get(cid)
     if vc.graph_type in _VISUALIZERS:
-        visualizer = _VISUALIZERS[vc.graph_type].Visualizer()
+        visualizer = _VISUALIZERS[vc.graph_type]()
     else:
-        abort(500) # log error unknown type
+        abort(501) # log error unknown type
     return render_template(visualizer.template, visualize_config=vc, 
                            visualizer=visualizer)
     #return render_template('webvisualize_view.html', visualize_config=cid)

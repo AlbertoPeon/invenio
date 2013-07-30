@@ -16,8 +16,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
 templatesdir = $(sysconfdir)/templates
-templates_DATA = webvisualize_view.html \
-				 webvisualize_index.html
+templates_DATA = webvisualize_*.html
 
 EXTRA_DIST = $(templates_DATA)
 

@@ -24,6 +24,7 @@
 from invenio.adminutils import InvenioModelView
 from invenio.sqlalchemyutils import db
 from invenio.webvisualize_model import VslConfig
+from wtforms.fields import SelectField
 
 
 class VslConfigAdmin(InvenioModelView):
@@ -32,6 +33,12 @@ class VslConfigAdmin(InvenioModelView):
     _can_delete = True
 
     #inline_models = [PidLog]
+    form_overrides = dict(graph_type=SelectField)
+    form_args = dict(
+        # Pass the choices to the `SelectField`
+        graph_type=dict(
+            choices=[('grid', 'grid'), ('graph', 'graph'), ('map', 'map')]
+        ))
 
     column_list = ('title', 'creator', 'graph_type', 'config')
     page_size = 100
