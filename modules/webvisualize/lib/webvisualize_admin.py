@@ -37,7 +37,7 @@ class VslConfigAdmin(InvenioModelView):
     form_args = dict(
         # Pass the choices to the `SelectField`
         graph_type=dict(
-            choices=[('grid', 'grid'), ('graph', 'graph'), ('map', 'map')]
+            choices=[('grid', 'Grid'), ('graph', 'Graph'), ('map', 'Map')]
         ))
 
     column_list = ('title', 'creator', 'graph_type', 'config')
