@@ -59,9 +59,7 @@
 (function($) {
 
   var vconfig = {{ visualize_config.config|safe }};
-  var $json_try = $("#json_try");
 
-  $json_try.append(vconfig['url']);
 
   // create the dataset in the usual way but specifying file attribute
   var dataset = new recline.Model.Dataset(
