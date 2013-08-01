@@ -66,12 +66,12 @@
 (function($) {
 
   var vconfig = {{ visualize_config.config|safe }};
-
-
-  // create the dataset in the usual way but specifying file attribute
-  var dataset = new recline.Model.Dataset(
-    {{ visualize_config.config|safe }});
-  // later you can use filter |tojson for db.JSON!!!
+  console.log(vconfig);
+  var data = {
+    url: vconfig.resources[0].url,
+    backend: vconfig.resources[0].format
+  }
+  var dataset = new recline.Model.Dataset(data);
 
 
   // TABLE
