@@ -62,3 +62,8 @@ def view(cid):
 @blueprint.route('/index', methods=['GET'])
 def index():
     return render_template('webvisualize_index.html')
+
+@blueprint.route('/dataset/<cid>.json', methods=['GET'])
+def dataset(cid):
+    vc = VslConfig.query.get(cid)
+    return vc.config
