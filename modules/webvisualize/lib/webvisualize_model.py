@@ -32,21 +32,28 @@ class VslConfig(db.Model):
 	__tablename__ = 'VslConfig'
 	id = db.Column(db.Integer(15, unsigned=True), primary_key=True,
                    autoincrement=True)
+	name = db.Column(db.String(255), nullable=False,
+                  server_default='', index=True, unique=True)
 	title = db.Column(db.String(255), nullable=False,
                   server_default='', index=True)
 	id_creator = db.Column(db.Integer(15, unsigned=True),
 				           db.ForeignKey(User.id), nullable=True)
 	graph_type = db.Column(db.String(255), nullable=False,
                      server_default='', index=True)
+	description = db.Column(db.Text)
 	config = db.Column(db.Text)
 
 	creator = db.relationship(User, backref='visualization_configs')
-"""
+
 	@property
 	def json_config(self):
 		import json
-		return json.loads(self.config)
-
+		cfg = json.loads(self.config)
+		cfg['name'] = self.name
+		cfg['title'] = self.title
+		cfg['description'] = self.description
+		return cfg
+"""
 	@property
 	def type(self):
 		import json

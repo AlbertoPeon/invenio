@@ -16,26 +16,18 @@
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 #}
-{% extends "page.html" %}
+{% extends "webvisualize_recline_view.html" %}
 {% set title = _("Visualize - view") %}
 
 {% block header %}
   {{ super() }}
-  {%- css 'css/slick.grid.css', '01-recline' -%}
-  {%- css 'css/leaflet.css', '01-recline' -%}
-  {%- css 'css/MarkerCluster.css', '01-recline' -%}
-  {%- css 'css/MarkerCluster.Default.css', '01-recline' -%}
-  {%- css 'css/map.css', '01-recline' -%}
+  {%- css 'css/map.css', '03-map' -%}
+  {%- css 'css/leaflet.css', '03-map' -%}
+  {%- css 'css/MarkerCluster.css', '03-map' -%}
+  {%- css 'css/MarkerCluster.Default.css', '03-map' -%}
+  {% js "js/leaflet.js", '03-map' %}
+  {% js "js/leaflet.markercluster.js", '03-map' %}
 
-  {% js "js/underscore.js", '01-recline' %}
-  {% js "js/backbone.js", '01-recline' %}
-  {% js "js/mustache.js", '01-recline' %}
-  {% js "js/jquery.event.drag-2.0.min.js", '01-recline' %}
-  {% js "js/jquery-ui-1.8.16.custom.min.js", '01-recline' %}
-  {% js "js/slick.grid.min.js", '01-recline' %}
-  {% js "js/leaflet.js", '01-recline' %}
-  {% js "js/leaflet.markercluster.js", '01-recline' %}
-  {% js "js/recline.js", '01-recline' %}
 {% endblock header %}
 
 {% block body %}
@@ -43,61 +35,17 @@
 <h2>{{ visualize_config.title }}</h2>
 <h2>{{ visualize_config.id_creator }}</h2>
 <h2>{{ visualize_config.graph_type }}</h2>
+
 <div id="data-map"></div>
-<div class="accordion" id="accordion2">
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseGrid">
-        Table
-      </a>
-    </div>
-    <div id="collapseGrid" class="accordion-body collapse in">
-      <div class="accordion-inner">
-        <div id="data-grid"></div>
-      </div>
-    </div>
-  </div>
-</div>
+
+{{ super() }}
 
 {% endblock %}
 
-{% block javascript %}
-<script type="text/javascript">
-(function($) {
+{% block javascript_code %}
 
-  var vconfig = {{ visualize_config.config|safe }};
-  console.log(vconfig);
-  var data = {
-    url: vconfig.resources[0].url,
-    backend: vconfig.resources[0].format
-  }
-  var dataset = new recline.Model.Dataset(data);
-
-
-  // TABLE
-  var $data_grid = $("#data-grid");
-  // now load - note that this is again async (HTML5 File API is async)
-  // dataset.fetch().done(function() { console.log('here'); });
-  dataset.fetch();
-
-  // For demonstrations purposes display the data in a grid
-  var grid = new recline.View.SlickGrid({
-    model: dataset,
-    el: $data_grid,
-    state: {
-      fitColumns:true, // Columns are distributed equally
-      gridOptions: {
-        autoHeight: true
-      }
-    }
-  });
-  grid.visible = true;
-  grid.render()
-
-  
   // MAP
   L.Icon.Default.imagePath = '/img/';
-
   var $data_map = $("#data-map");
   var view = new recline.View.Map({
     el: $data_map,
@@ -106,7 +54,4 @@
 
   view.render();
 
-})(jQuery);
-
-</script>
-{% endblock javascript %}
+{% endblock javascript_code %}

@@ -40,7 +40,7 @@ class VslConfigAdmin(InvenioModelView):
             choices=[('grid', 'Grid'), ('graph', 'Graph'), ('map', 'Map')]
         ))
 
-    column_list = ('title', 'creator', 'graph_type', 'config')
+    column_list = ('name','title', 'creator', 'graph_type','description', 'config')
     page_size = 100
 
     def __init__(self, model, session, **kwargs):
