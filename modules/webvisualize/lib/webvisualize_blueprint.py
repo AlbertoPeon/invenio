@@ -23,7 +23,7 @@ from datetime import datetime
 import socket
 
 from flask import g, render_template, request, flash, redirect, url_for, \
-    current_app, abort
+    current_app, abort, jsonify
 
 from invenio.webinterface_handler_flask_utils import _, InvenioBlueprint
 from invenio.webuser_flask import current_user
@@ -63,7 +63,7 @@ def view(cid):
 def index():
     return render_template('webvisualize_index.html')
 
-@blueprint.route('/dataset/<cid>.json', methods=['GET'])
-def dataset(cid):
-    vc = VslConfig.query.get(cid)
-    return vc.config
+@blueprint.route('/dataset/<name>.json', methods=['GET'])
+def dataset(name):
+    vc = VslConfig.query.filter_by(name=name).one()
+    return jsonify(vc.json_config)

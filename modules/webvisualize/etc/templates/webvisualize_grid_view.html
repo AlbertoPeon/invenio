@@ -16,64 +16,17 @@
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 #}
-{% extends "page.html" %}
+{% extends "webvisualize_recline_view.html" %}
 {% set title = _("Visualize - view") %}
-
-{% block header %}
-  {{ super() }}
-  {%- css 'css/slick.grid.css', '01-recline' -%}
-
-  {% js "js/underscore.js", '01-recline' %}
-  {% js "js/backbone.js", '01-recline' %}
-  {% js "js/mustache.js", '01-recline' %}
-  {% js "js/jquery.event.drag-2.0.min.js", '01-recline' %}
-  {% js "js/jquery-ui-1.8.16.custom.min.js", '01-recline' %}
-  {% js "js/slick.grid.min.js", '01-recline' %}
-  {% js "js/recline.js", '01-recline' %}
-{% endblock header %}
 
 {% block body %}
 <h1>TEST - view</h1>
 <h2>{{ visualize_config.title }}</h2>
 <h2>{{ visualize_config.id_creator }}</h2>
 <h2>{{ visualize_config.graph_type }}</h2>
+<h2>{{ visualize_config.json_config }}</h2>
 
-<div id="data-grid" style="min-height: 100px"></div>
+
+{{ super() }}
 
 {% endblock %}
-
-{% block javascript %}
-<script type="text/javascript">
-(function($) {
-
-  var vconfig = {{ visualize_config.config|safe }};
-  var data = {
-    url: vconfig.resources[0].url,
-    backend: vconfig.resources[0].format
-  }
-  var dataset = new recline.Model.Dataset(data);
-
-  // TABLE
-  var $data_grid = $("#data-grid");
-
-  dataset.fetch();
-
-  var grid = new recline.View.SlickGrid({
-    model: dataset,
-    el: $data_grid,
-    state: {
-      fitColumns:true, // Columns are distributed equally
-      gridOptions: {
-        autoHeight: true
-      }
-    }
-  });
-  grid.visible = true;
-  grid.render()
-
-
-
-})(jQuery);
-
-</script>
-{% endblock javascript %}
