@@ -54,11 +54,13 @@
 <script type="text/javascript">
 (function($) {
   var vconfig = {{ visualize_config.config|safe }};
-  var fields_json = vconfig.resources[0].schema.fields;
-  var fields = [];
-  for(var i=0; i < fields_json.length; i++){
-    fields.push(fields_json[i].id);
-  }
+  var fields = {{ visualize_config.fields | safe}}
+
+  //var fields_json = vconfig.resources[0].schema.fields;
+  //var fields = [];
+  //for(var i=0; i < fields_json.length; i++){
+  //  fields.push(fields_json[i].id);
+  //}
   var data = {
     url: vconfig.resources[0].url,
     backend: vconfig.resources[0].format

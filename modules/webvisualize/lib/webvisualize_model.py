@@ -53,6 +53,14 @@ class VslConfig(db.Model):
 		cfg['title'] = self.title
 		cfg['description'] = self.description
 		return cfg
+
+	@property
+	def fields(self):
+		# only one element??
+		import json
+		return json.dumps([str(field['id']) for field in 
+									self.json_config['resources'][0]['schema']['fields']])
+
 """
 	@property
 	def type(self):
