@@ -30,6 +30,7 @@ from invenio.webuser_flask import current_user
 
 from invenio.sqlalchemyutils import db
 from invenio.webvisualize_model import VslConfig
+from invenio.webvisualize_forms import AddVisualizationForm
 
 blueprint = InvenioBlueprint('webvisualize', __name__,
                              url_prefix="/visualize",
@@ -54,16 +55,24 @@ def view(cid):
     if vc.graph_type in _VISUALIZERS:
         visualizer = _VISUALIZERS[vc.graph_type]()
     else:
-        abort(501) # log error unknown type
+        abort(500) # log error unknown type
     return render_template(visualizer.template, visualize_config=vc, 
                            visualizer=visualizer)
     #return render_template('webvisualize_view.html', visualize_config=cid)
-
-@blueprint.route('/index', methods=['GET'])
-def index():
-    return render_template('webvisualize_index.html')
 
 @blueprint.route('/dataset/<name>.json', methods=['GET'])
 def dataset(name):
     vc = VslConfig.query.filter_by(name=name).one()
     return jsonify(vc.json_config)
+
+
+@blueprint.route('/', methods=['GET'])
+def index():
+    return render_template('webvisualize_index.html')
+
+@blueprint.route('/new', methods=['GET', 'POST'])
+@blueprint.invenio_authenticated
+def new():
+    form = AddVisualizationForm()
+    form.id_user = current_user.get_id()
+    return render_template('webvisualize_new.html', form=form)
