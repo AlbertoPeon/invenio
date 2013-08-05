@@ -17,20 +17,26 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 #}
 {% extends "page.html" %}
-{% set title = _("Create a Visualization") %}
+{% from "_formhelpers.html" import render_field with context %}
+{% set title = _("Add a visualization") %}
 {% block body %}
+<form name="write_message"
+      action=""
+      style=""
+      method="post" class="form-horizontal">
+  <div class="">
+    {{ form.csrf_token }}
+    {{ render_field(form.name) }}
+    {{ render_field(form.title) }}
+    {{ render_field(form.description) }}
+    {{ render_field(form.graph_type) }}
+    {{ render_field(form.csv_field) }}
 
-<div class="page-header">
-  <h3>
-    {{ _('Visualization') }}
-    <small>
-      {{ _('create visualization') }}
-      <a class="btn btn-info pull-right"
-         href="{{ url_for('webvisualize.new')}}">
-        <i class="icon-edit icon-white"></i> {{ _('New Visualization') }}
-      </a>
-    </small>
-  </h3>
-</div>
-
+    <p>{{ form.id_user }}</p>
+  </div>
+  <div class="">
+     <input type="submit" name="send_button" value="{{ _("Send") }}" class="btn btn-primary"/>
+     <a class="btn" data-dismiss="modal">Close</a>
+  </div>
+</form>
 {% endblock %}
