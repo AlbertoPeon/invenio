@@ -31,6 +31,9 @@ from invenio.webuser_flask import current_user
 from invenio.sqlalchemyutils import db
 from invenio.webvisualize_model import VslConfig
 from invenio.webvisualize_forms import AddVisualizationForm
+from invenio.webvisualize_model import VslConfig
+from invenio.websession_model import User
+
 
 blueprint = InvenioBlueprint('webvisualize', __name__,
                              url_prefix="/visualize",
@@ -67,12 +70,25 @@ def dataset(name):
 
 
 @blueprint.route('/', methods=['GET'])
+@blueprint.invenio_authenticated
 def index():
-    return render_template('webvisualize_index.html')
+    user = User.query.get(current_user.get_id())
+    vsl_configs = user.visualization_configs
+    return render_template('webvisualize_index.html', vsl_configs=vsl_configs)
 
 @blueprint.route('/new', methods=['GET', 'POST'])
 @blueprint.invenio_authenticated
 def new():
     form = AddVisualizationForm()
-    form.id_user = current_user.get_id()
+    if form.validate_on_submit():
+        v = VslConfig()
+        v.create_from_form(data=form.data, id_user=current_user.get_id())
+        try:
+            db.session.add(v)
+            db.session.commit()
+            flash(_('Visualization was added'), "info")
+            return redirect(url_for('webvisualize.index'))
+        except:
+            db.session.rollback()
+
     return render_template('webvisualize_new.html', form=form)
