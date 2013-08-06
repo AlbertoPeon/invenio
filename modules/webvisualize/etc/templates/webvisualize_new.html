@@ -21,7 +21,7 @@
 {% set title = _("Add a visualization") %}
 {% block body %}
 <form name="write_message"
-      action=""
+      action="{{ url_for('webvisualize.new') }}"
       style=""
       method="post" class="form-horizontal">
   <div class="">
@@ -30,7 +30,7 @@
     {{ render_field(form.title) }}
     {{ render_field(form.description) }}
     {{ render_field(form.graph_type) }}
-    {{ render_field(form.csv_field) }}
+    {{ render_field(form.csv_file) }}
 
     <p>{{ form.id_user }}</p>
   </div>

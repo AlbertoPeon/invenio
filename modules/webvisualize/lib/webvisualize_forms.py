@@ -31,13 +31,14 @@ class AddVisualizationForm(InvenioBaseForm):
 	graph_type = SelectField(_('Graph type'), choices=[('grid', 'Grid'),
 													   ('graph', 'Graph'), 
 													   ('map', 'Map')])
-	csv_field = TextAreaField(_('CSV_field'), [validators.Required()])
+	csv_file = TextField(_('CSV_file'), [validators.Required(), validators.URL(require_tld=False)])
 
-	def validate_csv_field(form, field):
+	"""def validate_csv_field(form, field):
 		lines = field.data.split('\n')
 		n_header = lines[0].count(',') #number of columns in the header
 		if n_header < 2:
-			raise ValidationError('CSV needs at least two columns')
+			raise ValidationError('CSV must have at least two columns')
 		for line in s.split('\n'):
 			if line.count(',') != n_header:
 				raise ValidationError('Bad formatted CSV field!!')
+	"""
