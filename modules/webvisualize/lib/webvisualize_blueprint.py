@@ -34,6 +34,9 @@ from invenio.webvisualize_forms import AddVisualizationForm
 from invenio.webvisualize_model import VslConfig
 from invenio.websession_model import User
 
+# TEMPORAL
+from invenio.websearch_model import Collection
+
 
 blueprint = InvenioBlueprint('webvisualize', __name__,
                              url_prefix="/visualize",
@@ -92,3 +95,19 @@ def new():
             db.session.rollback()
 
     return render_template('webvisualize_new.html', form=form)
+
+@blueprint.route('/temp', methods=['GET'])
+def temp():
+    import json
+    def generate_tree(root, level=0):
+        if level < 4:
+            tree = {'label':root.name,
+                'amount':root.nbrecs,
+                'children': [generate_tree(node, level+1) for node in root.collection_children]}
+            if not len(tree['children']) or  not tree['amount']:
+                del(tree['children'])
+            return tree
+        return
+
+    tree = generate_tree(Collection.query.get(1)) # id=1 is the root of all collections
+    return render_template('webvisualize_bubbletree_view.html', ds_tree=tree)
