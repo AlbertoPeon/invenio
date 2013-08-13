@@ -36,7 +36,6 @@
 <div class="bubbletree-wrapper">
     <div class="bubbletree"></div>
 </div>
-<p> Prueba </p>
 {% endblock body %}
 
 {% block javascript %}
@@ -46,7 +45,8 @@
 
   new BubbleTree({
                 data: data,
-                container: '.bubbletree'
+                container: '.bubbletree',
+                bubbleType: 'plain'
               });
 
 })(jQuery);

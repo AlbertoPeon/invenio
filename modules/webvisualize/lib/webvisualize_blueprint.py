@@ -101,8 +101,11 @@ def temp():
     import json
     def generate_tree(root, level=0):
         if level < 4:
-            tree = {'label':root.name,
+            tree = {
+                'name': root.name,
+                'label':root.name,
                 'amount':root.nbrecs,
+                'color': '#119ce2', #blue as default color
                 'children': [generate_tree(node, level+1) for node in root.collection_children]}
             if not len(tree['children']) or  not tree['amount']:
                 del(tree['children'])
