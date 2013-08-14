@@ -33,9 +33,12 @@
 {% endblock header %}
 
 {% block body %}
+<a id="launcher"> Go! </a>
+
 <div class="bubbletree-wrapper">
     <div class="bubbletree"></div>
 </div>
+
 {% endblock body %}
 
 {% block javascript %}
@@ -49,7 +52,23 @@
                 bubbleType: 'plain'
               });
 
+  $('#launcher').click(function(){
+      window.location.href = '/collection/' + encodeURIComponent($('.current > span').text());
+  });
+
+
 })(jQuery);
 
+
 </script>
+<script type="text/javascript">
+/*
+$(window).load(function(){
+  $('circle').click(function(){
+    window.location.href = '/collection/' + encodeURIComponent($('.current > span').text());
+  });
+});
+*/
+</script> 
+
 {% endblock javascript %}
