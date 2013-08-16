@@ -41,8 +41,8 @@ from invenio.websearch_model import Collection
 blueprint = InvenioBlueprint('webvisualize', __name__,
                              url_prefix="/visualize",
                              #config='invenio.webcomment_config',
-                             breadcrumbs=[(_('Comments'),
-                                           'webcomment.subscribtions')],
+                             breadcrumbs=[(_('Visualizations'),
+                                           'webvisualize.index')],
                              menubuilder=[('personalize.comment_subscriptions',
                                            _('Your comment subscriptions'),
                                            'webvisualize.index', 20)])
@@ -54,6 +54,7 @@ from invenio.importutils import autodiscover_modules
 _VISUALIZERS = dict(map(lambda v: (v.Visualizer.graph_type, v.Visualizer),
                         autodiscover_modules(['invenio'], related_name_re=".+_webvisualizer\.py")))
 
+@blueprint.invenio_set_breadcrumb(_("View"))
 @blueprint.route('/view/<cid>', methods=['GET'])
 #@blueprint.invenio_authenticated
 def view(cid): 

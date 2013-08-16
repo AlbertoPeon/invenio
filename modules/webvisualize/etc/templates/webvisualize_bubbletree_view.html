@@ -17,7 +17,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 #}
 {% extends "page.html" %}
-{% set title = _("Visualize - view") %}
+{% set title = _("Collection Tree") %}
 
 {% block header %}
   {{ super() }}
@@ -33,11 +33,17 @@
 {% endblock header %}
 
 {% block body %}
-<button class="btn btn-primary" id="launcher" disabled> Click on one node! </button>
+<div class="row">
 
-<div class="bubbletree-wrapper">
+<div class="bubbletree-wrapper span6">
     <div class="bubbletree"></div>
 </div>
+<div class="preview span6" style="float:right;">
+  
+</div>
+
+</div>
+
 
 {% endblock body %}
 
@@ -79,10 +85,25 @@
   };
 
   var nodeClick = function (node) {
-    $('circle').popover({'title': 'prueba!'});
+    $('.preview').empty();
     var launcher = $('#launcher');
     launcher.text('Go to ' + node.name);
     launcher.attr('disabled', false);
+    //var temp = $.get('{{ url_for('search.search') }}',{'of': 'hb', 'cc': node.name, 'rg': 5});
+    //console.log(temp.responseText);
+  $.ajax({
+    url: '{{ url_for('search.search') }}',
+    data: {'of': 'hb', 'cc': node.name, 'rg': 3},
+    success: function ( code )
+    {
+      $('.preview').append('<h3>'+ node.name+ '<small class="muted"> ('+ node.amount +')</small></h3>');
+      var html = $(code).html();
+      $('.htmlbrief', html).each(function () {
+        $('.preview').append($(this).html());
+      })
+      $('.preview').append('<a href="/collection/' +encodeURIComponent(node.name) +'"id="launcher"> More results </a>');
+    }
+  });
   }
 
   new BubbleTree({
@@ -93,12 +114,12 @@
                 nodeClickCallback : nodeClick
               });
 
-  $('#launcher').click(function(){
+  var gotoCollection = function(){
       var uri = encodeURIComponent($('.current > span').text());
       if( uri !== '') {
         window.location.href = '/collection/' + uri;
       }
-  });
+  }
 
 
 })(jQuery);
