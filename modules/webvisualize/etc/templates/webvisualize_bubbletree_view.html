@@ -33,7 +33,7 @@
 {% endblock header %}
 
 {% block body %}
-<a id="launcher"> Go! </a>
+<button class="btn btn-primary" id="launcher" disabled> Click on one node! </button>
 
 <div class="bubbletree-wrapper">
     <div class="bubbletree"></div>
@@ -41,19 +41,63 @@
 
 {% endblock body %}
 
+
 {% block javascript %}
 <script type="text/javascript">
 (function($) {
   var data = {{ ds_tree | tojson | safe }}
+  var $tooltip = $('<div class="tooltip">Tooltip</div>');
+  $('.bubbletree').append($tooltip);
+  $tooltip.hide();
+  var launcher = $('#launcher');
+  launcher.text('Click on one node!');
+  launcher.attr('disabled', true);
+
+  var tooltip = function(event) {
+    /*
+    if (event.type == 'SHOW') {
+      // show tooltip
+      console.log('show tooltip');
+      vis4.log(event);
+      $tooltip.css({
+        left: event.mousePos.x + 4,
+        top: event.mousePos.y + 4
+      });
+      $tooltip.html('<p>PRUEBA</p>');
+      var bubble = event.target;
+    } else {
+      // hide tooltip
+      console.log('hide tooltip');
+      $tooltip.hide();
+    }
+
+    var launcher = $('#launcher');
+
+    var button_label = 'Go to' ;
+      */
+    console.log('tooltip');
+  };
+
+  var nodeClick = function (node) {
+    $('circle').popover({'title': 'prueba!'});
+    var launcher = $('#launcher');
+    launcher.text('Go to ' + node.name);
+    launcher.attr('disabled', false);
+  }
 
   new BubbleTree({
                 data: data,
                 container: '.bubbletree',
-                bubbleType: 'plain'
+                bubbleType: 'plain',
+                tooltipCallback: tooltip,
+                nodeClickCallback : nodeClick
               });
 
   $('#launcher').click(function(){
-      window.location.href = '/collection/' + encodeURIComponent($('.current > span').text());
+      var uri = encodeURIComponent($('.current > span').text());
+      if( uri !== '') {
+        window.location.href = '/collection/' + uri;
+      }
   });
 
 
@@ -61,14 +105,4 @@
 
 
 </script>
-<script type="text/javascript">
-/*
-$(window).load(function(){
-  $('circle').click(function(){
-    window.location.href = '/collection/' + encodeURIComponent($('.current > span').text());
-  });
-});
-*/
-</script> 
-
 {% endblock javascript %}
