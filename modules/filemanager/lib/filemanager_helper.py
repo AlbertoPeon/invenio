@@ -1,5 +1,5 @@
 ## This file is part of Invenio.
-## Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011 CERN.
+## Copyright (C) 2013 CERN.
 ##
 ## Invenio is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU General Public License as
@@ -15,14 +15,18 @@
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
-pylibdir = $(libdir)/python/invenio
+"""FileManager helper methods"""
 
-pylib_DATA = filemanager_blueprint.py \
-			 filemanager_join_fileaction.py \
-			 filemanager_filter_fileaction.py \
-			 filemanager_config.py \
-			 filemanager_helper.py
+from invenio.filemanager_config import CFG_UPLOAD_FILEMANAGER_FOLDER, \
+									   CFG_UPLOAD_ALLOWED_EXTENSIONS
+import os
 
-EXTRA_DIST = $(pylib_DATA)
+def allowed_file(filename):
+	"""Check if the name of a file is valid"""
+	return '.' in filename and not '..' in filename and not filename.startswith('/') and \
+            filename.rsplit('.', 1)[1] in CFG_UPLOAD_ALLOWED_EXTENSIONS
 
-CLEANFILES = *~ *.tmp *.pyc
+def create_path_upload(filename):
+	if not os.path.exists(CFG_UPLOAD_FILEMANAGER_FOLDER):
+  		os.makedirs(CFG_UPLOAD_FILEMANAGER_FOLDER)
+  	return os.path.join(CFG_UPLOAD_FILEMANAGER_FOLDER,  filename)

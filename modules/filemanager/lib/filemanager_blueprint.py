@@ -21,15 +21,14 @@
 
 from flask import g, request, flash, redirect, url_for, \
     current_app, abort, jsonify, send_from_directory
-
 from invenio.webinterface_handler_flask_utils import _, InvenioBlueprint
-
-from invenio.sqlalchemyutils import db
 from werkzeug.utils import secure_filename
-
+from invenio.filemanager_config import CFG_UPLOAD_FILEMANAGER_FOLDER
+from invenio.filemanager_helper import allowed_file, create_path_upload
+from invenio.record_blueprint import request_record
+from invenio.importutils import autodiscover_modules
 import os, urllib, urllib2
-from invenio.filemanager_config import CFG_UPLOAD_FILEMANAGER_FOLDER, \
-    CFG_UPLOAD_ALLOWED_EXTENSIONS
+
 
 blueprint = InvenioBlueprint('filemanager', __name__,
                              url_prefix="/file",
@@ -40,15 +39,17 @@ blueprint = InvenioBlueprint('filemanager', __name__,
                                            _('Your comment subscriptions'),
                                            'webvisualize.index', 20)])
 
-from invenio.record_blueprint import request_record
-
-def allowed_file(filename):
-    return '.' in filename and not '..' in filename and not filename.startswith('/') and \
-            filename.rsplit('.', 1)[1] in CFG_UPLOAD_ALLOWED_EXTENSIONS
+_ACTIONS = dict(map(lambda f: (f.FileAction.name, f.FileAction),
+                        autodiscover_modules(['invenio'], related_name_re=".+_fileaction\.py")))
 
 @blueprint.route('/', methods=['GET'])
 def index():
-    return jsonify(request.args)
+    action_name = request.args.get('action')
+    newfile = request.args.get('name')
+    if action_name and newfile and allowed_file(newfile): 
+        _ACTIONS[action_name]().action(newfile=newfile, params=request.args)
+        return redirect(url_for('filemanager.uploaded_file', filename=newfile))
+    return jsonify(request.args) # change to abort(XXX)
 
 @blueprint.route('/uploads/<path:filename>', methods=['GET'])
 def uploaded_file(filename):
@@ -58,14 +59,11 @@ def uploaded_file(filename):
 
 @blueprint.route('/upload', methods=['GET'])
 def upload():
-
     if not request.args.get('file') or not request.args.get('name') \
-        or not allowed_file(request.args['name']):
+            or not allowed_file(request.args['name']):
         abort(404)
     url = urllib2.urlopen(urllib.unquote(request.args['file']))
-    if not os.path.exists(CFG_UPLOAD_FILEMANAGER_FOLDER):
-        os.makedirs(CFG_UPLOAD_FILEMANAGER_FOLDER)
     filename = secure_filename(request.args['name'])
-    with open(os.path.join(CFG_UPLOAD_FILEMANAGER_FOLDER,  filename), 'w') as file_url:
+    with open(create_path_upload(filename), 'w') as file_url:
         file_url.write(url.read())
     return redirect(url_for('filemanager.uploaded_file', filename=filename))

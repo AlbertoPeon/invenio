@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
+##
 ## This file is part of Invenio.
-## Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011 CERN.
+## Copyright (C) 2013 CERN.
 ##
 ## Invenio is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU General Public License as
@@ -14,15 +16,19 @@
 ## You should have received a copy of the GNU General Public License
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+import urllib, urllib2
+from invenio.filemanager_config import CFG_UPLOAD_FILEMANAGER_FOLDER
+from invenio.filemanager_helper import allowed_file, create_path_upload
 
-pylibdir = $(libdir)/python/invenio
+"""FileManager join action Plugin"""
 
-pylib_DATA = filemanager_blueprint.py \
-			 filemanager_join_fileaction.py \
-			 filemanager_filter_fileaction.py \
-			 filemanager_config.py \
-			 filemanager_helper.py
-
-EXTRA_DIST = $(pylib_DATA)
-
-CLEANFILES = *~ *.tmp *.pyc
+class FileAction(object):
+  """docstring for Visualizer"""
+  name = 'filter'
+  
+  def action(self, newfile, params):
+    """
+    Filter a CSV file by a value in its header
+    """
+    pass
+    
