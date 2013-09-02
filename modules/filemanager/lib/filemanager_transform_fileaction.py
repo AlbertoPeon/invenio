@@ -18,35 +18,24 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 import urllib, urllib2
 from invenio.filemanager_config import CFG_UPLOAD_FILEMANAGER_FOLDER
-from invenio.filemanager_helper import create_path_upload, get_cache_key, cache_file
+from invenio.filemanager_helper import create_path_upload
 
-"""FileManager filter action Plugin"""
+"""FileManager tranform action Plugin"""
 
 class FileAction(object):
   """docstring for Visualizer"""
-  name = 'filter'
+  name = 'transform'
+
+  def _csv_to_json(filename):
+  	pass
+
+  def _json_to_csv(filename):
+  	pass 
   
-  def action(self, params):
+  def action(self, newfile, params):
     """
     Filter a CSV file by a value in its header
     """
-    name = get_cache_key(params)
-    original_file = params.get('file')
-    fields = params.getlist('field')
-    if not original_file or not fields or len(fields) < 2:
-    	raise Exception('At least two fields needed!')
+    to_format = params.get('to')
 
-    header = urllib2.urlopen(urllib.unquote(original_file)).readline()
-    columns_to_remove = [pos for pos, elem in enumerate(header.split(',')) 
-    						if elem not in fields]
-
-    import csv
-    with open(create_path_upload(name), 'w') as csvfile:
-    	csvwriter = csv.writer(csvfile, delimiter=',')
-    	csvreader = csv.reader(urllib2.urlopen(urllib.unquote(original_file)))
-    	for line in csvreader:
-    		csvwriter.writerow([elem for pos, elem in enumerate(line) 
-    								if not pos in columns_to_remove])
-    		
-   	return name
     

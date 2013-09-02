@@ -24,9 +24,10 @@ from flask import g, request, flash, redirect, url_for, \
 from invenio.webinterface_handler_flask_utils import _, InvenioBlueprint
 from werkzeug.utils import secure_filename
 from invenio.filemanager_config import CFG_UPLOAD_FILEMANAGER_FOLDER
-from invenio.filemanager_helper import allowed_file, create_path_upload
+from invenio.filemanager_helper import create_path_upload
 from invenio.record_blueprint import request_record
 from invenio.importutils import autodiscover_modules
+from invenio.cache import cache
 import os, urllib, urllib2
 
 
@@ -44,24 +45,24 @@ _ACTIONS = dict(map(lambda f: (f.FileAction.name, f.FileAction),
 
 @blueprint.route('/', methods=['GET'])
 def index():
-    action_name = request.args.get('action')
-    newfile = request.args.get('name')
-    if action_name and newfile and allowed_file(newfile): 
-        _ACTIONS[action_name]().action(newfile=newfile, params=request.args)
-        return redirect(url_for('filemanager.uploaded_file', filename=newfile))
+    if request.args.get('action'): 
+        name = _ACTIONS[request.args.get('action')]().action(params=request.args)
+        return redirect(url_for('filemanager.uploaded_file', filename=name))
     return jsonify(request.args) # change to abort(XXX)
 
-@blueprint.route('/uploads/<path:filename>', methods=['GET'])
+@blueprint.route('/temps/<filename>', methods=['GET'])
 def uploaded_file(filename):
-    if not allowed_file(filename):
-        abort(404)
-    return send_from_directory(CFG_UPLOAD_FILEMANAGER_FOLDER, filename)
+    """if cache.get(filename):
+        return cache.get(filename)
+    """
+    return send_from_directory(CFG_UPLOAD_FILEMANAGER_FOLDER, secure_filename(filename), 
+        mimetype='text/plain')
 
 @blueprint.route('/upload', methods=['GET'])
 def upload():
-    if not request.args.get('file') or not request.args.get('name') \
-            or not allowed_file(request.args['name']):
+    if not request.args.get('file') or not request.args.get('name'):
         abort(404)
+
     url = urllib2.urlopen(urllib.unquote(request.args['file']))
     filename = secure_filename(request.args['name'])
     with open(create_path_upload(filename), 'w') as file_url:
