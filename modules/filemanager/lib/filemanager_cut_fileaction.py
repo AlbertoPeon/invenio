@@ -18,17 +18,17 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 import urllib, urllib2
 from invenio.filemanager_config import CFG_UPLOAD_FILEMANAGER_FOLDER
-from invenio.filemanager_helper import create_path_upload, get_cache_key, cache_file
+from invenio.filemanager_helper import create_path_upload, get_cache_key
 
-"""FileManager filter action Plugin"""
+"""FileManager cut action Plugin"""
 
 class FileAction(object):
   """docstring for Visualizer"""
-  name = 'filter'
+  name = 'cut'
   
   def action(self, params):
     """
-    Filter a CSV file by a value in its header
+    Cut a CSV file from its different columns
     """
     name = get_cache_key(params)
     original_file = params.get('file')

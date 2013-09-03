@@ -19,7 +19,8 @@ pylibdir = $(libdir)/python/invenio
 
 pylib_DATA = filemanager_blueprint.py \
 			 filemanager_join_fileaction.py \
-			 filemanager_filter_fileaction.py \
+			 filemanager_cut_fileaction.py \
+			 filemanager_transform_fileaction.py \
 			 filemanager_config.py \
 			 filemanager_helper.py
 
