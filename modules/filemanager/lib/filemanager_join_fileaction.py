@@ -17,8 +17,6 @@
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 import urllib, urllib2
-from invenio.filemanager_config import CFG_UPLOAD_FILEMANAGER_FOLDER
-from invenio.filemanager_helper import create_path_upload, get_cache_key, cache_file
 
 """FileManager join action Plugin"""
 
@@ -31,7 +29,7 @@ class FileAction(object):
     Merges several csv files in one and it is uploaded to Invenio.
     Note: All files must have the same header
     """
-    name = get_cache_key(params)
+    name = "temp"
     files = params.getlist('file')
     if not files or len(files) < 2:
     	raise Exception('Two o more files needed to join!')
@@ -41,7 +39,7 @@ class FileAction(object):
     for i in range(1, len(files)):
         if urllib2.urlopen(urllib.unquote(files[i])).readline() != header:
             raise Exception('Different Header!')
-
+    """
   	# joining		
     with open(create_path_upload(name), 'w') as final_file:
         final_file.write(header)
@@ -50,5 +48,4 @@ class FileAction(object):
             url.readline() # skip header
             for line in url.readlines():
                 final_file.write(line)
-    cache_file(params, final_file)
-    return name
+    """

@@ -17,7 +17,6 @@
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 import urllib, urllib2, csv, json
-from invenio.filemanager_helper import create_path_upload, get_cache_key
 
 """FileManager tranform action Plugin"""
 
@@ -26,7 +25,7 @@ class FileAction(object):
     name = 'transform'
     
     def _csv_to_json(self, params):
-        name = get_cache_key(params)
+        name = "temp"
         original_file = params.get('file')
 
         json_file = []
@@ -37,15 +36,15 @@ class FileAction(object):
             for index in range(len(line)):
                 dict_line[header[index]] = line[index]
             json_file.append(dict_line)
-
+        """
         with open(create_path_upload(name), 'w') as final_file:
             final_file.write(json.dumps(json_file))
-
+        """
         return name
 
 
     def _json_to_csv(self, params):
-        name = get_cache_key(params)
+        name = "temp"
         
         return name
 

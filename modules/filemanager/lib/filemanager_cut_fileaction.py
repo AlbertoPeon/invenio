@@ -18,35 +18,57 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 import urllib, urllib2
 from invenio.filemanager_config import CFG_UPLOAD_FILEMANAGER_FOLDER
-from invenio.filemanager_helper import create_path_upload, get_cache_key
+from invenio.filemanager_helper import FileManagerCache
 
 """FileManager cut action Plugin"""
 
-class FileAction(object):
-  """docstring for Visualizer"""
-  name = 'cut'
-  
-  def action(self, params):
-    """
-    Cut a CSV file from its different columns
-    """
-    name = get_cache_key(params)
-    original_file = params.get('file')
-    fields = params.getlist('field')
-    if not original_file or not fields or len(fields) < 2:
-    	raise Exception('At least two fields needed!')
+class FileManagerAction(object):
+    def __init__(self, cache=FileManagerCache):
+        self.cache = cache()
 
-    header = urllib2.urlopen(urllib.unquote(original_file)).readline()
-    columns_to_remove = [pos for pos, elem in enumerate(header.split(',')) 
-    						if elem not in fields]
-
-    import csv
-    with open(create_path_upload(name), 'w') as csvfile:
-    	csvwriter = csv.writer(csvfile, delimiter=',')
-    	csvreader = csv.reader(urllib2.urlopen(urllib.unquote(original_file)))
-    	for line in csvreader:
-    		csvwriter.writerow([elem for pos, elem in enumerate(line) 
-    								if not pos in columns_to_remove])
-    		
-   	return name
+    def __call__(self, *args, **kwargs):
+        params = kwargs.get('params')
+        data = self.cache.get(params)
+        if not data:
+           data = self.action(*args, **kwargs)
+           self.cache.set(params, data)
+        return data, self.response_mimetype
     
+    def action(self, *args, **kwargs):
+        raise 'Needs to be implemented'
+
+class FileAction(FileManagerAction):
+    """docstring for Visualizer"""
+    name = 'cut'
+    accepted_mimetypes = ['text/plain', 'text/csv']
+    response_mimetype = 'text/csv'
+  
+    def action(self, *args, **kwargs):
+        """
+        Cut a CSV file from its different columns
+        """
+        original_file = kwargs.get('files')[0]
+        fields = kwargs['params'].getlist('field')
+        if not original_file or not fields or len(fields) < 2:
+        	raise Exception('At least two fields needed!')
+
+        mimetype = urllib.URLopener().retrieve(original_file)[1].gettype()
+
+        if mimetype not in self.accepted_mimetypes:
+            raise Exception('Not valid mimetype')
+
+        header = urllib2.urlopen(urllib.unquote(original_file)).readline()
+
+        columns_to_remove = [pos for pos, elem in enumerate(header.split(',')) 
+        						if elem not in fields]
+
+        result = []
+        import csv
+        csvreader = csv.reader(urllib2.urlopen(urllib.unquote(original_file)))
+        for line in csvreader:
+            result.append(','.join([elem for pos, elem in enumerate(line) 
+                                if not pos in columns_to_remove]))
+        
+        return '\n'.join(result)
+         
+   

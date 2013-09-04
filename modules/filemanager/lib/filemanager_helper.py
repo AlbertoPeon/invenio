@@ -18,30 +18,47 @@
 """FileManager helper methods"""
 
 from invenio.cache import cache
-from invenio.filemanager_config import CFG_UPLOAD_FILEMANAGER_FOLDER, \
-									   CFG_UPLOAD_ALLOWED_EXTENSIONS
-import os
+import zlib
 
-def create_path_upload(filename):
-	if not os.path.exists(CFG_UPLOAD_FILEMANAGER_FOLDER):
-  		os.makedirs(CFG_UPLOAD_FILEMANAGER_FOLDER)
-  	return os.path.join(CFG_UPLOAD_FILEMANAGER_FOLDER,  filename)
+class FileManagerCache(object):
 
-def get_cache_key(params):
-	import hashlib
-	m = hashlib.md5()
-	query = []
-	for key in sorted(params.keys()):
-		query.append(key)
-		query.append(params[key])
-	m.update(''.join(query))
-	return m.hexdigest()
+    def __init__(self, engine=cache):
+        self.engine = engine
 
-def cache_file(params, final_file):
-	key = get_cache_key(params)
-	if not cache.get(key):
-		cache.set(key, final_file)
-	return cache.get(key)
+    def _get_cache_key(self, params):
+        """
+        Calculates a string from the params, 
+        to be used as a key in the cache
 
+        """
+        import hashlib
+        m = hashlib.md5()
+        query = []
+        for key in sorted(params.keys()):
+            query.append(key)
+            query.append(params[key])
+        m.update(''.join(query))
+        return m.hexdigest()
 
+    def get(self, params):
+        """
+        Get the element from the cache whose key is calculated from the params. 
+        Elements are stored compressed so it is necessary to decompress 
+        it before returning it.
 
+        @param params: Params in the request
+        
+        """
+        cached = self.engine.get(self._get_cache_key(params))
+        return zlib.decompress(cached) if cached else None
+
+    def set(self, params, obj):
+        """
+        Store 'obj' in the cache. 
+        The key is calculated from the params
+
+        @param params: Params in the request, for calculating the key
+        @param obj: Object to be stored
+        
+        """
+        self.engine.set(self._get_cache_key(params), zlib.compress((obj)))
