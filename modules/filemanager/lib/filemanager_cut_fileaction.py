@@ -17,25 +17,9 @@
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 import urllib, urllib2
-from invenio.filemanager_config import CFG_UPLOAD_FILEMANAGER_FOLDER
-from invenio.filemanager_helper import FileManagerCache
+from invenio.filemanager_helper import FileManagerAction
 
 """FileManager cut action Plugin"""
-
-class FileManagerAction(object):
-    def __init__(self, cache=FileManagerCache):
-        self.cache = cache()
-
-    def __call__(self, *args, **kwargs):
-        params = kwargs.get('params')
-        data = self.cache.get(params)
-        if not data:
-           data = self.action(*args, **kwargs)
-           self.cache.set(params, data)
-        return data, self.response_mimetype
-    
-    def action(self, *args, **kwargs):
-        raise 'Needs to be implemented'
 
 class FileAction(FileManagerAction):
     """docstring for Visualizer"""
@@ -52,8 +36,8 @@ class FileAction(FileManagerAction):
         if not original_file or not fields or len(fields) < 2:
         	raise Exception('At least two fields needed!')
 
+        # Check if mimetype is accepted
         mimetype = urllib.URLopener().retrieve(original_file)[1].gettype()
-
         if mimetype not in self.accepted_mimetypes:
             raise Exception('Not valid mimetype')
 
@@ -61,7 +45,6 @@ class FileAction(FileManagerAction):
 
         columns_to_remove = [pos for pos, elem in enumerate(header.split(',')) 
         						if elem not in fields]
-
         result = []
         import csv
         csvreader = csv.reader(urllib2.urlopen(urllib.unquote(original_file)))

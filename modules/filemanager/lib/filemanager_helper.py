@@ -62,3 +62,18 @@ class FileManagerCache(object):
         
         """
         self.engine.set(self._get_cache_key(params), zlib.compress((obj)))
+
+class FileManagerAction(object):
+    def __init__(self, cache=FileManagerCache):
+        self.cache = cache()
+
+    def __call__(self, *args, **kwargs):
+        params = kwargs.get('params')
+        data = self.cache.get(params)
+        if not data:
+           data = self.action(*args, **kwargs)
+           self.cache.set(params, data)
+        return data, self.response_mimetype
+    
+    def action(self, *args, **kwargs):
+        raise 'Needs to be implemented'
