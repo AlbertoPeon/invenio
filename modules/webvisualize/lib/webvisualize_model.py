@@ -25,6 +25,7 @@ WebVisualize database models.
 from invenio.sqlalchemyutils import db
 from invenio.websession_model import User
 from datetime import datetime
+import urllib2
 # Create your models here.
 
 class VslConfig(db.Model):
@@ -80,7 +81,7 @@ class VslConfig(db.Model):
 		"""
 
 		def generate_config(csv_url):
-			import json, urllib2
+			import json
 			config = {}
 			config['licenses'] = []
 			config['sources'] = []
@@ -109,4 +110,8 @@ class VslConfig(db.Model):
 		self.graph_type = data['graph_type']
 		self.description = data['description']
 		self.visibility = data['visibility']
-		self.config = generate_config(csv_url=data['csv_file'])
+		if self.graph_type == 'bubbletree':
+			self.config = response = urllib2.urlopen(data['url_file']).read(10000) 
+			#FIX ME! maybe 10000 chars  is not enough
+		else:
+			self.config = generate_config(csv_url=data['url_file'])

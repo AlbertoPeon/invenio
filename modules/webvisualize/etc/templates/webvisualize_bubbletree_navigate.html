@@ -17,6 +17,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 #}
 {% extends "page.html" %}
+{% set title = _("Collection Tree") %}
 
 {% block header %}
   {{ super() }}
@@ -32,8 +33,8 @@
 {% endblock header %}
 
 {% block body %}
-<h2>{{ visualize_config.name }}</h2>
 <div class="row">
+
 <div class="bubbletree-wrapper span7">
     <div class="bubbletree"></div>
 </div>
@@ -50,15 +51,37 @@
 {% block javascript %}
 <script type="text/javascript">
 (function($) {
-  var data = {{ visualize_config.config|safe }}
+  var data = {{ ds_tree | safe }}
   var $tooltip = $('<div class="tooltip">Tooltip</div>');
   $('.bubbletree').append($tooltip);
   $tooltip.hide();
 
+  var tooltip = function(event) {
+    console.log('tooltip');
+  };
+
+  var nodeClick = function (node) {
+    $('.preview').empty();
+    
+    $.ajax({
+      url: '{{ url_for('search.search') }}',
+      data: {'of': 'hb', 'cc': node.name, 'rg': 3},
+      success: function ( code ) {
+        $('.preview').append('<h3>'+ node.name+ '<small class="muted"> ('+ node.amount +')</small></h3>');
+        $('.htmlbrief', $(code).html()).each(function () {
+          $('.preview').append($(this).html());
+        })
+        $('.preview').append('<a href="/collection/' +encodeURIComponent(node.name) +'"id="launcher"> More results </a>');
+      }
+  });
+  }
+
   new BubbleTree({
                 data: data,
                 container: '.bubbletree',
-                bubbleType: 'plain'
+                bubbleType: 'plain',
+                tooltipCallback: tooltip,
+                nodeClickCallback : nodeClick
               });
 
   var gotoCollection = function(){

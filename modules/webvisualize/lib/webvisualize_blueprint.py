@@ -99,7 +99,7 @@ def new():
 
     return render_template('webvisualize_new.html', form=form)
 
-@blueprint.route('/temp', methods=['GET'])
+@blueprint.route('/navigate', methods=['GET'])
 def temp():
     import json
     def generate_tree(root, level=0):
@@ -116,4 +116,5 @@ def temp():
             return tree
 
     tree = generate_tree(Collection.query.get(1)) # id=1 is the root of all collections
-    return render_template('webvisualize_bubbletree_view.html', ds_tree=tree)
+    return render_template('webvisualize_bubbletree_navigate.html', 
+                                ds_tree=json.dumps(tree))

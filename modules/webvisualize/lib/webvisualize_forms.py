@@ -30,17 +30,8 @@ class AddVisualizationForm(InvenioBaseForm):
 	description = TextField(_('Description'), [validators.Optional()])
 	graph_type = SelectField(_('Graph type'), choices=[('grid', 'Grid'),
 													   ('graph', 'Graph'), 
-													   ('map', 'Map')])
+													   ('map', 'Map'),
+													   ('bubbletree', 'Tree')])
 	visibility = RadioField(_('Visibility'), choices=[('public','Public'), 
 													  ('private','Private')])
-	csv_file = TextField(_('CSV_file'), [validators.Required(), validators.URL(require_tld=False)])
-
-	"""def validate_csv_field(form, field):
-		lines = field.data.split('\n')
-		n_header = lines[0].count(',') #number of columns in the header
-		if n_header < 2:
-			raise ValidationError('CSV must have at least two columns')
-		for line in s.split('\n'):
-			if line.count(',') != n_header:
-				raise ValidationError('Bad formatted CSV field!!')
-	"""
+	url_file = TextField(_('File URL'), [validators.Required(), validators.URL(require_tld=False)])
