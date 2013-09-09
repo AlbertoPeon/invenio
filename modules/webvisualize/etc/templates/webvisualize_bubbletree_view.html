@@ -35,10 +35,10 @@
 {% block body %}
 <div class="row">
 
-<div class="bubbletree-wrapper span6">
+<div class="bubbletree-wrapper span7">
     <div class="bubbletree"></div>
 </div>
-<div class="preview span6" style="float:right;">
+<div class="preview span5" style="float:right;">
   
 </div>
 
@@ -55,54 +55,24 @@
   var $tooltip = $('<div class="tooltip">Tooltip</div>');
   $('.bubbletree').append($tooltip);
   $tooltip.hide();
-  var launcher = $('#launcher');
-  launcher.text('Click on one node!');
-  launcher.attr('disabled', true);
 
   var tooltip = function(event) {
-    /*
-    if (event.type == 'SHOW') {
-      // show tooltip
-      console.log('show tooltip');
-      vis4.log(event);
-      $tooltip.css({
-        left: event.mousePos.x + 4,
-        top: event.mousePos.y + 4
-      });
-      $tooltip.html('<p>PRUEBA</p>');
-      var bubble = event.target;
-    } else {
-      // hide tooltip
-      console.log('hide tooltip');
-      $tooltip.hide();
-    }
-
-    var launcher = $('#launcher');
-
-    var button_label = 'Go to' ;
-      */
     console.log('tooltip');
   };
 
   var nodeClick = function (node) {
     $('.preview').empty();
-    var launcher = $('#launcher');
-    launcher.text('Go to ' + node.name);
-    launcher.attr('disabled', false);
-    //var temp = $.get('{{ url_for('search.search') }}',{'of': 'hb', 'cc': node.name, 'rg': 5});
-    //console.log(temp.responseText);
-  $.ajax({
-    url: '{{ url_for('search.search') }}',
-    data: {'of': 'hb', 'cc': node.name, 'rg': 3},
-    success: function ( code )
-    {
-      $('.preview').append('<h3>'+ node.name+ '<small class="muted"> ('+ node.amount +')</small></h3>');
-      var html = $(code).html();
-      $('.htmlbrief', html).each(function () {
-        $('.preview').append($(this).html());
-      })
-      $('.preview').append('<a href="/collection/' +encodeURIComponent(node.name) +'"id="launcher"> More results </a>');
-    }
+    
+    $.ajax({
+      url: '{{ url_for('search.search') }}',
+      data: {'of': 'hb', 'cc': node.name, 'rg': 3},
+      success: function ( code ) {
+        $('.preview').append('<h3>'+ node.name+ '<small class="muted"> ('+ node.amount +')</small></h3>');
+        $('.htmlbrief', $(code).html()).each(function () {
+          $('.preview').append($(this).html());
+        })
+        $('.preview').append('<a href="/collection/' +encodeURIComponent(node.name) +'"id="launcher"> More results </a>');
+      }
   });
   }
 

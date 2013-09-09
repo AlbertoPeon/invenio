@@ -74,6 +74,11 @@ class VslConfig(db.Model):
 		return url.replace('http://localhost', '')
 
 	def create_from_form(self, data, id_user):
+		"""
+		From the values obtained in the 'create a visualization'
+		form, the model is generated
+		"""
+
 		def generate_config(csv_url):
 			import json, urllib2
 			config = {}

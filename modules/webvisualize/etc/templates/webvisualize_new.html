@@ -36,7 +36,7 @@
   </div>
   <div class="">
      <input type="submit" name="send_button" value="{{ _("Send") }}" class="btn btn-primary"/>
-     <a class="btn" data-dismiss="modal">Close</a>
+     <a class="btn" href="{{ url_for('webvisualize.index') }}">Back</a>
   </div>
 </form>
 {% endblock %}

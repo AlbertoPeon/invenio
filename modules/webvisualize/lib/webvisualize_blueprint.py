@@ -31,10 +31,9 @@ from invenio.webuser_flask import current_user
 from invenio.sqlalchemyutils import db
 from invenio.webvisualize_model import VslConfig
 from invenio.webvisualize_forms import AddVisualizationForm
-from invenio.webvisualize_model import VslConfig
 from invenio.websession_model import User
 
-# TEMPORAL
+# TEMPORAL / Just for visualize/temp
 from invenio.websearch_model import Collection
 
 
@@ -76,8 +75,12 @@ def dataset(name):
 @blueprint.invenio_authenticated
 def index():
     user = User.query.get(current_user.get_id())
-    vsl_configs = user.visualization_configs
-    return render_template('webvisualize_index.html', vsl_configs=vsl_configs)
+    public_vsl_configs = VslConfig.query.filter_by(visibility='public')
+
+    # Merge user's visualizations and public ones without duplicates
+    all_vsl_configs = user.visualization_configs + list(set(public_vsl_configs) 
+                                                    - set(user.visualization_configs))
+    return render_template('webvisualize_index.html', vsl_configs=all_vsl_configs)
 
 @blueprint.route('/new', methods=['GET', 'POST'])
 @blueprint.invenio_authenticated
@@ -114,10 +117,3 @@ def temp():
 
     tree = generate_tree(Collection.query.get(1)) # id=1 is the root of all collections
     return render_template('webvisualize_bubbletree_view.html', ds_tree=tree)
-
-"""
-@blueprint.route('/temp#/~/<node>', methods=['GET'])
-def map_update():
-    return redirect(url_for('websearch.collection',
-                                        name=node))
-"""
