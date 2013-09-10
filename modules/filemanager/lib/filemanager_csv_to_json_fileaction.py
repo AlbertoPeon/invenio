@@ -1,4 +1,4 @@
-/option# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##
 ## This file is part of Invenio.
 ## Copyright (C) 2013 CERN.
@@ -31,10 +31,9 @@ class FileAction(FileManagerAction):
         """
         Transforms a CSV file to a JSON file
         """
-        to_format = kwargs.get('params').get('to')
         filename = kwargs.get('files')[0]      
 
-        if not filename or not to_format or to_format != 'json': 
+        if not filename: 
             raise Exception('Wrong params!')
 
         json_file = []

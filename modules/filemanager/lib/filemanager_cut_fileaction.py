@@ -27,6 +27,8 @@ class FileAction(FileManagerAction):
     accepted_mimetypes = ['text/plain', 'text/csv']
     response_mimetype = 'text/csv'
   
+    
+  
     def action(self, *args, **kwargs):
         """
         Cut a CSV file from its different columns

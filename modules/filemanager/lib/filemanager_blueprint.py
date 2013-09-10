@@ -38,13 +38,17 @@ _ACTIONS = dict(map(lambda f: (f.FileAction.name, f.FileAction),
                                 autodiscover_modules(['invenio'], 
                                     related_name_re=".+_fileaction\.py")))
 
-@blueprint.route('/<action>', methods=['GET'])
-def perform(action):
+@blueprint.route('/', methods=['GET'])
+def perform():
     files = request.values.getlist('file')
-    if action in _ACTIONS: 
-        content, mimetype = _ACTIONS.get(action)()(files=files, 
+    action = request.values.get('action')
+    if action in _ACTIONS:
+        try: 
+            content, mimetype = _ACTIONS.get(action)()(files=files, 
                                                 params=request.args)
-        response = make_response(content)
-        response.mimetype = mimetype
-        return response
+            response = make_response(content)
+            response.mimetype = mimetype
+            return response
+        except:
+            return abort(400)        
     return abort(406)
