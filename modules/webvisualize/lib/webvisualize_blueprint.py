@@ -64,7 +64,7 @@ def view(cid):
 @blueprint.route('/dataset/<name>.json', methods=['GET'])
 def dataset(name):
     vc = VslConfig.query.filter_by(name=name).first()
-    return jsonify(vc.json_config)
+    return jsonify(vc.json_config) if vc else abort(404)
 
 @blueprint.route('/', methods=['GET'])
 @blueprint.invenio_authenticated
