@@ -19,14 +19,10 @@
 
 """FileManager Flask Blueprint"""
 
-from flask import g, request, flash, redirect, url_for, \
-    current_app, abort, jsonify, send_from_directory, make_response
+from flask import request, abort, make_response
 from invenio.webinterface_handler_flask_utils import _, InvenioBlueprint
-from werkzeug.utils import secure_filename
-from invenio.filemanager_config import CFG_UPLOAD_FILEMANAGER_FOLDER
+#from werkzeug.utils import secure_filename
 from invenio.importutils import autodiscover_modules
-from invenio.cache import cache
-import os, urllib, urllib2
 
 
 blueprint = InvenioBlueprint('filemanager', __name__,
@@ -39,13 +35,15 @@ blueprint = InvenioBlueprint('filemanager', __name__,
                                            'webvisualize.index', 20)])
 
 _ACTIONS = dict(map(lambda f: (f.FileAction.name, f.FileAction),
-                    autodiscover_modules(['invenio'], related_name_re=".+_fileaction\.py")))
+                                autodiscover_modules(['invenio'], 
+                                    related_name_re=".+_fileaction\.py")))
 
 @blueprint.route('/<action>', methods=['GET'])
-def index(action):
+def perform(action):
     files = request.values.getlist('file')
     if action in _ACTIONS: 
-        content, mimetype = _ACTIONS.get(action)()(files=files, params=request.args)
+        content, mimetype = _ACTIONS.get(action)()(files=files, 
+                                                params=request.args)
         response = make_response(content)
         response.mimetype = mimetype
         return response

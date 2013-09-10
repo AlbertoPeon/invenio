@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+/option# -*- coding: utf-8 -*-
 ##
 ## This file is part of Invenio.
 ## Copyright (C) 2013 CERN.

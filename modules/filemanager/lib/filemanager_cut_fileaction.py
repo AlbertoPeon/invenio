@@ -34,7 +34,7 @@ class FileAction(FileManagerAction):
         original_file = kwargs.get('files')[0]
         fields = kwargs['params'].getlist('field')
         if not original_file or not fields or len(fields) < 2:
-        	raise Exception('At least two fields needed!')
+            raise Exception('At least two fields needed!')
 
         # Check if mimetype is accepted
         mimetype = urllib.URLopener().retrieve(original_file)[1].gettype()

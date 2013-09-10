@@ -71,8 +71,8 @@ class FileManagerAction(object):
         params = kwargs.get('params')
         data = self.cache.get(params)
         if not data:
-           data = self.action(*args, **kwargs)
-           self.cache.set(params, data)
+            data = self.action(*args, **kwargs)
+            self.cache.set(params, data)
         return data, self.response_mimetype
     
     def action(self, *args, **kwargs):

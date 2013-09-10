@@ -21,7 +21,6 @@ pylib_DATA = filemanager_blueprint.py \
 			 filemanager_join_fileaction.py \
 			 filemanager_cut_fileaction.py \
 			 filemanager_csv_to_json_fileaction.py \
-			 filemanager_config.py \
 			 filemanager_helper.py
 
 EXTRA_DIST = $(pylib_DATA)
