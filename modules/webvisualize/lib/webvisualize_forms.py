@@ -22,16 +22,20 @@ Webvisualize forms.
 """
 from invenio.webinterface_handler_flask_utils import _
 from invenio.wtforms_utils import InvenioBaseForm
-from wtforms import validators, TextField, TextAreaField, SelectField, RadioField
+from wtforms import validators, TextField, SelectField, RadioField
 
 class AddVisualizationForm(InvenioBaseForm):
-	name = TextField(_('Name'), [validators.Required()])
-	title = TextField(_('Title'), [validators.Required()])
-	description = TextField(_('Description'), [validators.Optional()])
-	graph_type = SelectField(_('Graph type'), choices=[('grid', 'Grid'),
-													   ('graph', 'Graph'), 
-													   ('map', 'Map'),
-													   ('bubbletree', 'Tree')])
-	visibility = RadioField(_('Visibility'), choices=[('public','Public'), 
-													  ('private','Private')])
-	url_file = TextField(_('File URL'), [validators.Required(), validators.URL(require_tld=False)])
+    """
+    Form for creating a new visualization
+    """
+    name = TextField(_('Name'), [validators.Required()])
+    title = TextField(_('Title'), [validators.Required()])
+    description = TextField(_('Description'), [validators.Optional()])
+    graph_type = SelectField(_('Graph type'), choices=[('grid', 'Grid'),
+                                                       ('graph', 'Graph'), 
+                                                       ('map', 'Map'), 
+                                                       ('bubbletree', 'Tree')])
+    visibility = RadioField(_('Visibility'), choices=[('public','Public'), 
+                                                      ('private','Private')])
+    url_file = TextField(_('File URL'), [validators.Required(), 
+                                        validators.URL(require_tld=False)])
