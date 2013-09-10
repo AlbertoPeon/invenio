@@ -29,7 +29,7 @@ class WebVisualizeRegressionTests(InvenioTestCase):
     def test_index_guest_visualization(self):
         url = CFG_SITE_SECURE_URL + '/visualize'
         errors = test_web_page_content(url)
-        assert errors[0].endswith('HTTP Error 401: UNAUTHORIZED')
+        assert 'HTTP Error 401' in errors[0]
 
     def test_index_authenticated_visualization(self):
         url = CFG_SITE_SECURE_URL + '/visualize'
@@ -41,7 +41,7 @@ class WebVisualizeRegressionTests(InvenioTestCase):
     def test_add_guest_visualization(self):
         url = CFG_SITE_SECURE_URL + '/visualize/new'
         errors = test_web_page_content(url)
-        assert errors[0].endswith('HTTP Error 401: UNAUTHORIZED')
+        assert 'HTTP Error 401' in errors[0]
 
     def test_add_authenticated_visualization(self):
         url = CFG_SITE_SECURE_URL + '/visualize/new'
