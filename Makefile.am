@@ -58,6 +58,12 @@ BOOTSTRAPV = 2.2.1
 # Hogan.js version
 HOGANVER = 2.0.0
 
+# Recline.js version
+RECLINEJSVER = c8f7ab5
+
+# BubbleTree version
+BUBBLETREEVER = master
+
 check-upgrade:
 	$(PYTHON) $(top_srcdir)/modules/miscutil/lib/inveniocfg_upgrader.py $(top_srcdir) --upgrade-check
 
@@ -362,47 +368,47 @@ install-visualize-plugin:
 	rm -rf /tmp/reclinejs
 	mkdir /tmp/reclinejs
 	(cd /tmp/reclinejs && \
-	wget -O recline.zip 'https://github.com/okfn/recline/zipball/master' && unzip -u recline.zip -d recline && \
-	cp recline/*/vendor/backbone/*/backbone.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/flot/excanvas.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/flot/jquery.flot.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/flot/jquery.flot.time.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/flot/excanvas.min.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/flotr2/flotr2.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/json/json2.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/leaflet/*/leaflet.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/leaflet/*/leaflet-src.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/leaflet/*/leaflet.css ${prefix}/var/www/css/ && \
-	cp recline/*/vendor/leaflet/*/leaflet.ie.css ${prefix}/var/www/css/ && \
-	cp recline/*/vendor/leaflet/*/images/*.png ${prefix}/var/www/img/ && \
-	cp recline/*/vendor/leaflet.markercluster/leaflet.markercluster.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/leaflet.markercluster/leaflet.markercluster-src.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/leaflet.markercluster/MarkerCluster.css ${prefix}/var/www/css/ && \
-	cp recline/*/vendor/leaflet.markercluster/MarkerCluster.Default.css ${prefix}/var/www/css/ && \
-	cp recline/*/vendor/leaflet.markercluster/MarkerCluster.Default.ie.css ${prefix}/var/www/css/ && \
-	cp recline/*/vendor/moment/*/moment.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/mustache/*/mustache.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/showdown/*/showdown.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/slickgrid/*/slick.grid.min.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/slickgrid/*/jquery.event.drag-2.0.min.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/slickgrid/*/jquery-ui-1.8.16.custom.min.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/slickgrid/*/slick.grid.css ${prefix}/var/www/css/ && \
-	cp recline/*/vendor/slickgrid/*/images/*.gif ${prefix}/var/www/img/ && \
-	cp recline/*/vendor/timeline/js/timeline.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/timeline/css/timeline.css ${prefix}/var/www/css/ && \
-	cp recline/*/vendor/timeline/css/*.png ${prefix}/var/www/img/ && \
-	cp recline/*/vendor/timeline/css/*.gif ${prefix}/var/www/img/ && \
-	cp recline/*/vendor/underscore/*/underscore.js ${prefix}/var/www/js/ && \
-	cp recline/*/vendor/underscore.deferred/*/underscore.deferred.js ${prefix}/var/www/js/ && \
-	cp recline/*/css/flot.css ${prefix}/var/www/css/ && \
-	cp recline/*/css/grid.css ${prefix}/var/www/css/ && \
-	cp recline/*/css/map.css ${prefix}/var/www/css/ && \
-	cp recline/*/css/multiview.css ${prefix}/var/www/css/ && \
-	cp recline/*/css/slickgrid.css ${prefix}/var/www/css/ && \
-	cp recline/*/css/timeline.css ${prefix}/var/www/css/ && \
-	cp recline/*/dist/recline.css ${prefix}/var/www/css/ && \
-	cp recline/*/dist/recline.dataset.js ${prefix}/var/www/js/ && \
-	cp recline/*/dist/recline.js ${prefix}/var/www/js/ && \
+	wget -O recline.zip 'https://github.com/okfn/recline/zipball/master' && unzip -u recline.zip && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/backbone/*/backbone.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/flot/excanvas.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/flot/jquery.flot.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/flot/jquery.flot.time.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/flot/excanvas.min.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/flotr2/flotr2.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/json/json2.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/leaflet/*/leaflet.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/leaflet/*/leaflet-src.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/leaflet/*/leaflet.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/leaflet/*/leaflet.ie.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/leaflet/*/images/*.png ${prefix}/var/www/img/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/leaflet.markercluster/leaflet.markercluster.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/leaflet.markercluster/leaflet.markercluster-src.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/leaflet.markercluster/MarkerCluster.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/leaflet.markercluster/MarkerCluster.Default.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/leaflet.markercluster/MarkerCluster.Default.ie.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/moment/*/moment.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/mustache/*/mustache.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/showdown/*/showdown.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/slickgrid/*/slick.grid.min.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/slickgrid/*/jquery.event.drag-2.0.min.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/slickgrid/*/jquery-ui-1.8.16.custom.min.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/slickgrid/*/slick.grid.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/slickgrid/*/images/*.gif ${prefix}/var/www/img/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/timeline/js/timeline.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/timeline/css/timeline.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/timeline/css/*.png ${prefix}/var/www/img/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/timeline/css/*.gif ${prefix}/var/www/img/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/underscore/*/underscore.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/vendor/underscore.deferred/*/underscore.deferred.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/css/flot.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-${RECLINEJSVER}/css/grid.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-${RECLINEJSVER}/css/map.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-${RECLINEJSVER}/css/multiview.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-${RECLINEJSVER}/css/slickgrid.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-${RECLINEJSVER}/css/timeline.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-${RECLINEJSVER}/dist/recline.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-${RECLINEJSVER}/dist/recline.dataset.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-${RECLINEJSVER}/dist/recline.js ${prefix}/var/www/js/ && \
 	rm -fr /tmp/reclinejs )
 	@echo "***********************************************************"
 	@echo "** recline.js was successfully installed.                **"
@@ -412,16 +418,16 @@ install-visualize-plugin:
 	@echo "***********************************************************"
 	rm -rf /tmp/bubbletree
 	mkdir /tmp/bubbletree
-	(wget -O bubbletree.zip 'https://github.com/wollmilchsau/bubbleworks/archive/master.zip' && \
-	unzip -u bubbletree.zip -d bubbletree  && \
-	cp bubbletree/*/bubbletree/lib/jquery.tooltip.min.js ${prefix}/var/www/js/ && \
-	cp bubbletree/*/bubbletree/lib/jquery.history.js ${prefix}/var/www/js/ && \
-	cp bubbletree/*/bubbletree/lib/raphael.js ${prefix}/var/www/js/ && \
-	cp bubbletree/*/bubbletree/lib/raphael-min.js ${prefix}/var/www/js/ && \
-	cp bubbletree/*/bubbletree/lib/Tween.js ${prefix}/var/www/js/ && \
-	cp bubbletree/*/bubbletree/lib/vis4.js ${prefix}/var/www/js/ && \
-	cp bubbletree/*/bubbletree/build1/bubbletree.js ${prefix}/var/www/js/ && \
-	cp bubbletree/*/bubbletree/build1/bubbletree.css ${prefix}/var/www/css/ && \
+	(wget -O bubbletree.zip 'https://github.com/wollmilchsau/bubbletree/archive/master.zip' && \
+	unzip -u bubbletree.zip && \
+	cp bubbleworks-${BUBBLETREEVER}/bubbletree/lib/jquery.tooltip.min.js ${prefix}/var/www/js/ && \
+	cp bubbleworks-${BUBBLETREEVER}/bubbletree/lib/jquery.history.js ${prefix}/var/www/js/ && \
+	cp bubbleworks-${BUBBLETREEVER}/bubbletree/lib/raphael.js ${prefix}/var/www/js/ && \
+	cp bubbleworks-${BUBBLETREEVER}/bubbletree/lib/raphael-min.js ${prefix}/var/www/js/ && \
+	cp bubbleworks-${BUBBLETREEVER}/bubbletree/lib/Tween.js ${prefix}/var/www/js/ && \
+	cp bubbleworks-${BUBBLETREEVER}/bubbletree/lib/vis4.js ${prefix}/var/www/js/ && \
+	cp bubbleworks-${BUBBLETREEVER}/bubbletree/build1/bubbletree.js ${prefix}/var/www/js/ && \
+	cp bubbleworks-${BUBBLETREEVER}/bubbletree/build1/bubbletree.css ${prefix}/var/www/css/ && \
 	rm -fr /tmp/bubbletree )
 	@echo "***********************************************************"
 	@echo "** BubbleTree was successfully installed.                **"
