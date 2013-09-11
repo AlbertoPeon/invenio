@@ -355,6 +355,131 @@ uninstall-hogan-plugin:
 	@echo "** Hogan.js was successfully uninstalled.                **"
 	@echo "***********************************************************"
 
+install-visualize-plugin:
+	@echo "***********************************************************"
+	@echo "** Installing recline.js, please wait...                 **"
+	@echo "***********************************************************"
+	rm -rf /tmp/reclinejs
+	mkdir /tmp/reclinejs
+	(cd /tmp/reclinejs && \
+	wget -O recline.zip 'https://github.com/okfn/recline/zipball/master' && unzip -u recline.zip && \
+	cp okfn-recline-c8f7ab5/vendor/backbone/*/backbone.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/flot/excanvas.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/flot/jquery.flot.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/flot/jquery.flot.time.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/flot/excanvas.min.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/flotr2/flotr2.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/json/json2.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/leaflet/*/leaflet.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/leaflet/*/leaflet-src.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/leaflet/*/leaflet.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-c8f7ab5/vendor/leaflet/*/leaflet.ie.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-c8f7ab5/vendor/leaflet/*/images/*.png ${prefix}/var/www/img/ && \
+	cp okfn-recline-c8f7ab5/vendor/leaflet.markercluster/leaflet.markercluster.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/leaflet.markercluster/leaflet.markercluster-src.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/leaflet.markercluster/MarkerCluster.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-c8f7ab5/vendor/leaflet.markercluster/MarkerCluster.Default.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-c8f7ab5/vendor/leaflet.markercluster/MarkerCluster.Default.ie.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-c8f7ab5/vendor/moment/*/moment.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/mustache/*/mustache.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/showdown/*/showdown.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/slickgrid/*/slick.grid.min.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/slickgrid/*/jquery.event.drag-2.0.min.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/slickgrid/*/jquery-ui-1.8.16.custom.min.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/slickgrid/*/slick.grid.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-c8f7ab5/vendor/slickgrid/*/images/*.gif ${prefix}/var/www/img/ && \
+	cp okfn-recline-c8f7ab5/vendor/timeline/js/timeline.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/timeline/css/timeline.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-c8f7ab5/vendor/timeline/css/*.png ${prefix}/var/www/img/ && \
+	cp okfn-recline-c8f7ab5/vendor/timeline/css/*.gif ${prefix}/var/www/img/ && \
+	cp okfn-recline-c8f7ab5/vendor/underscore/*/underscore.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/vendor/underscore.deferred/*/underscore.deferred.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/css/flot.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-c8f7ab5/css/grid.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-c8f7ab5/css/map.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-c8f7ab5/css/multiview.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-c8f7ab5/css/slickgrid.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-c8f7ab5/css/timeline.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-c8f7ab5/dist/recline.css ${prefix}/var/www/css/ && \
+	cp okfn-recline-c8f7ab5/dist/recline.dataset.js ${prefix}/var/www/js/ && \
+	cp okfn-recline-c8f7ab5/dist/recline.js ${prefix}/var/www/js/ && \
+	rm -fr /tmp/reclinejs )
+	@echo "***********************************************************"
+	@echo "** recline.js was successfully installed.                **"
+	@echo "***********************************************************"
+	@echo "***********************************************************"
+	@echo "** Installing BubbleTree, please wait...                 **"
+	@echo "***********************************************************"
+	rm -rf /tmp/bubbletree
+	mkdir /tmp/bubbletree
+	(wget -O bubbletree.zip 'https://github.com/wollmilchsau/bubbleworks/archive/master.zip' && \
+	unzip -u bubbletree.zip  && \
+	cp bubbleworks-master/bubbletree/lib/jquery.tooltip.min.js ${prefix}/var/www/js/ && \
+	cp bubbleworks-master/bubbletree/lib/jquery.history.js ${prefix}/var/www/js/ && \
+	cp bubbleworks-master/bubbletree/lib/raphael.js ${prefix}/var/www/js/ && \
+	cp bubbleworks-master/bubbletree/lib/raphael-min.js ${prefix}/var/www/js/ && \
+	cp bubbleworks-master/bubbletree/lib/Tween.js ${prefix}/var/www/js/ && \
+	cp bubbleworks-master/bubbletree/lib/vis4.js ${prefix}/var/www/js/ && \
+	cp bubbleworks-master/bubbletree/build1/bubbletree.js ${prefix}/var/www/js/ && \
+	cp bubbleworks-master/bubbletree/build1/bubbletree.css ${prefix}/var/www/css/ && \
+	rm -fr /tmp/bubbletree )
+	@echo "***********************************************************"
+	@echo "** BubbleTree was successfully installed.                **"
+	@echo "***********************************************************"
+
+uninstall-visualize-plugin:
+	rm ${prefix}/var/www/js/backbone.js
+	rm ${prefix}/var/www/js/excanvas.js
+	rm ${prefix}/var/www/js/jquery.flot.js
+	rm ${prefix}/var/www/js/jquery.flot.time.js
+	rm ${prefix}/var/www/js/excanvas.min.js
+	rm ${prefix}/var/www/js/flotr2.js
+	rm ${prefix}/var/www/js/json2.js
+	rm ${prefix}/var/www/js/leaflet.js
+	rm ${prefix}/var/www/js/leaflet-src.js
+	rm ${prefix}/var/www/css/leaflet.css
+	rm ${prefix}/var/www/css/leaflet.ie.css
+	rm ${prefix}/var/www/js/leaflet.markercluster.js
+	rm ${prefix}/var/www/js/leaflet.markercluster-src.js
+	rm ${prefix}/var/www/css/MarkerCluster.css
+	rm ${prefix}/var/www/css/MarkerCluster.Default.css
+	rm ${prefix}/var/www/css/MarkerCluster.Default.ie.css
+	rm ${prefix}/var/www/js/moment.js
+	rm ${prefix}/var/www/js/mustache.js
+	rm ${prefix}/var/www/js/showdown.js
+	rm ${prefix}/var/www/js/slick.grid.min.js
+	rm ${prefix}/var/www/js/jquery.event.drag-2.0.min.js
+	rm ${prefix}/var/www/js/jquery-ui-1.8.16.custom.min.js
+	rm ${prefix}/var/www/css/slick.grid.css
+	rm ${prefix}/var/www/js/timeline.js
+	rm ${prefix}/var/www/css/timeline.css
+	rm ${prefix}/var/www/js/underscore.js
+	rm ${prefix}/var/www/js/underscore.deferred.js
+	rm ${prefix}/var/www/css/flot.css
+	rm ${prefix}/var/www/css/grid.css
+	rm ${prefix}/var/www/css/map.css
+	rm ${prefix}/var/www/css/multiview.css
+	rm ${prefix}/var/www/css/slickgrid.css
+	rm ${prefix}/var/www/css/recline.css
+	rm ${prefix}/var/www/js/recline.dataset.js
+	rm ${prefix}/var/www/js/recline.js
+	@echo "***********************************************************"
+	@echo "** recline.js was successfully uninstalled.              **"
+	@echo "***********************************************************"
+	rm ${prefix}/var/www/js/jquery.tooltip.min.js
+	rm ${prefix}/var/www/js/jquery.history.js
+	rm ${prefix}/var/www/js/raphael.js
+	rm ${prefix}/var/www/js/raphael-min.js
+	rm ${prefix}/var/www/js/Tween.js
+	rm ${prefix}/var/www/js/vis4.js
+	rm ${prefix}/var/www/js/bubbletree.js
+	rm ${prefix}/var/www/css/bubbletree.css
+	@echo "***********************************************************"
+	@echo "** BubbleTree was successfully uninstalled.              **"
+	@echo "***********************************************************"
+
+
+
 install-jquery-tokeninput:
 	@echo "***********************************************************"
 	@echo "** Installing JQuery Tokeninput, please wait...          **"
