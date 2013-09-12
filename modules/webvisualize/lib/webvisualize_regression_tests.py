@@ -17,34 +17,35 @@
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
-from invenio.config import CFG_SITE_SECURE_URL 
+from flask import url_for 
 from invenio.testutils import make_test_suite, run_test_suite, \
     InvenioTestCase, test_web_page_content, test_web_page_existence
 
 class WebVisualizeRegressionTests(InvenioTestCase):
 
     def test_bubbletree_navigation(self):
-        test_web_page_existence(CFG_SITE_SECURE_URL + "/visualize/navigate/")
+        url = url_for('webvisualize.navigate', _external=True)
+        test_web_page_existence(url)
 
     def test_index_guest_visualization(self):
-        url = CFG_SITE_SECURE_URL + '/visualize'
+        url = url_for('webvisualize.index', _external=True)
         errors = test_web_page_content(url)
         assert 'HTTP Error 401' in errors[0]
 
     def test_index_authenticated_visualization(self):
-        url = CFG_SITE_SECURE_URL + '/visualize'
+        url = url_for('webvisualize.index', _external=True)
         errors = test_web_page_content(url, username='jekyll', 
                                             password='j123ekyll',
     									    expected_text='create visualization')
         self.assertEquals([], errors)
 
     def test_add_guest_visualization(self):
-        url = CFG_SITE_SECURE_URL + '/visualize/new'
+        url = url_for('webvisualize.new', _external=True)
         errors = test_web_page_content(url)
         assert 'HTTP Error 401' in errors[0]
 
     def test_add_authenticated_visualization(self):
-        url = CFG_SITE_SECURE_URL + '/visualize/new'
+        url = url_for('webvisualize.new', _external=True)
         errors = test_web_page_content(url, username='jekyll', 
                                             password='j123ekyll',
     									    expected_text='<select id="graph_type"')
